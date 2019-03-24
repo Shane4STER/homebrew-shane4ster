@@ -88,6 +88,6 @@ class SceptreAT1 < Formula
   end
 
   test do
-    system bin/"sceptre@1", "--help"
+    system bin/"sceptre", "--help"
   end
 end
