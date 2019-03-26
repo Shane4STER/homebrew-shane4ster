@@ -5,6 +5,7 @@ class SceptreAT1 < Formula
   homepage "https://sceptre.cloudreach.com"
   url "https://github.com/cloudreach/sceptre/archive/v1.4.2.tar.gz"
   sha256 "0253ef680c1fe2ff589851f979fbcd28f81dd437cdbe9047ec7d3daac6600bf4"
+  revision 1
 
   depends_on "python"
 
@@ -84,10 +85,15 @@ class SceptreAT1 < Formula
   end
 
   def install
-    virtualenv_install_with_resources
+    # Installing manually (rather than virtualenv_build_with_resources) to deconflict with core/sceptre
+    venv = virtualenv_create(libexec, "python3")
+    venv.pip_install resources
+    venv.pip_install buildpath
+    mv libexec/"bin/sceptre", libexec/"bin/sceptre1"
+    bin.install_symlink libexec/"bin/sceptre1"
   end
 
   test do
-    system bin/"sceptre", "--help"
+    system bin/"sceptre1", "--help"
   end
 end
